@@ -134,8 +134,7 @@
     "telepathyVMStorageAccountContainerName": "vhds",
     "telepathyVMNicName": "[concat(parameters('telepathyVMName'), 'NetworkInterface')]",
     "customScriptLocation":"[parameters('customScriptLocation')]",
-    "telepathyStorageKey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('telepathyStorageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]",
-    "scriptParameters": "[concat('-artifactsFolderName ', parameters('artifactsFolderName'), '-desStorageAccountName ', variables('telepathyStorageName'), '-desStorageKey ', variables('telepathyStorageKey'))]"
+    "scriptParameters": "[concat('-artifactsFolderName ', parameters('artifactsFolderName'), '-desStorageAccountName ', variables('telepathyStorageName'))]"
   },
   "resources": [
     {
@@ -328,7 +327,7 @@
               "fileUris": [
                 "[variables('customScriptLocation')]"
               ],
-              "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File Copy-FileFromAzure.ps1', ' ', variables('scriptParameters'))]"
+              "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File Copy-FileFromAzure.ps1', ' ', variables('scriptParameters'), ' -desStorageKey ', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('telepathyStorageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value)]"
             }
           }
         }
