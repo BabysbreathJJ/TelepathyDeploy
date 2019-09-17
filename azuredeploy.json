@@ -116,7 +116,7 @@
       "metadata": {
         "description": "The artifacts folder to be download in telepathy VM"
       },
-      "defaultValue": "20190912.9"
+      "defaultValue": "20190912.9/Release*"
     }
   },
   "variables": {
@@ -134,7 +134,7 @@
     "telepathyVMStorageAccountContainerName": "vhds",
     "telepathyVMNicName": "[concat(parameters('telepathyVMName'), 'NetworkInterface')]",
     "customScriptLocation":"[parameters('customScriptLocation')]",
-    "scriptParameters": "[concat('-artifactsFolderName ', parameters('artifactsFolderName'))]"
+    "scriptParameters": "[concat('-artifactsFolderName ', parameters('artifactsFolderName'), '-desStorageAccountName ', variables('telepathyStorageName'), '-desStorageKey ', [listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('telepathyStorageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value])]"
   },
   "resources": [
     {
