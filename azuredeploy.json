@@ -124,6 +124,13 @@
       "metadata": {
         "description": "Subnet Name"
       }
+    },
+    "customScriptLocation": {
+      "type": "string",
+      "metadata": {
+        "description": "The base URI where artifacts required by this template are located. When the template is deployed using the accompanying scripts, a private location in the subscription will be used and this value will be automatically generated."
+      },
+      "defaultValue": "https://github.com/BabysbreathJJ/TelepathyDeploy/blob/master/Copy-FileFromAzure.ps1"
     }
   },
   "variables": {
@@ -140,10 +147,8 @@
     "telepathyVMSubnetRef": "[concat(variables('telepathyVMVnetID'), '/subnets/', variables('telepathyVnetSubnetName'))]",
     "telepathyVMStorageAccountContainerName": "vhds",
     "telepathyVMNicName": "[concat(parameters('telepathyVMName'), 'NetworkInterface')]",
-    "scriptFolder": ".",
-    "scriptFileName": "Copy-FileFromAzure.ps1",
-    "folderToBeCopied": "[parameters('folderToBeCopied')]",
-    "scriptParameters": "[concat('-artifactsLocation ', parameters('_artifactsLocation'), ' -artifactsLocationSasToken \"', parameters('_artifactsLocationSasToken'), '\" -folderName ', variables('scriptFolder'), ' -folderToBeCopied ', variables('folderToBeCopied'))]"
+    "customScriptLocation":"[parameters('customScriptLocation')]",
+    "scriptParameters": "[concat('-artifactsFolderName', parameters('_artifactsFolderName') ']"
   },
   "resources": [
     {
@@ -334,9 +339,9 @@
             "autoUpgradeMinorVersion": true,
             "settings": {
               "fileUris": [
-                "[concat(parameters('_artifactsLocation'), '/', variables('ScriptFolder'), '/', variables('ScriptFileName'), parameters('_artifactsLocationSasToken'))]"
+                "[variables('customScriptLocation')]"
               ],
-              "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('scriptFolder'), '/', variables('scriptFileName'), ' ', variables('scriptParameters'))]"
+              "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('scriptLocation'), ' ', variables('scriptParameters'))]"
             }
           }
         }
