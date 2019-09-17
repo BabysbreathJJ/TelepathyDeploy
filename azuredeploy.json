@@ -34,27 +34,6 @@
         "Windows-Server-Technical-Preview"
       ]
     },
-    "_artifactsLocation": {
-      "type": "string",
-      "metadata": {
-        "description": "The base URI where artifacts required by this template are located. When the template is deployed using the accompanying scripts, a private location in the subscription will be used and this value will be automatically generated."
-      },
-      "defaultValue": ""
-    },
-    "_artifactsLocationSasToken": {
-      "type": "securestring",
-      "metadata": {
-        "description": "The sasToken required to access _artifactsLocation.  When the template is deployed using the accompanying scripts, a sasToken will be automatically generated."
-      },
-      "defaultValue": ""
-    },
-    "folderToBeCopied": {
-      "type": "string",
-      "defaultValue":  "",
-      "metadata": {
-        "description":  "The folder to be copied in VM"
-      }
-    },
     "batchAccountsName": {
       "type": "string",
       "defaultValue": "[concat(toLower(uniqueString(resourceGroup().id)), 'batch')]",
@@ -113,7 +92,7 @@
     },
     "vnetName": {
       "type": "string",
-      "defaultValue": "telepathyVnet",
+      "defaultValue": "",
       "metadata": {
         "description": "Virtual Network Name"
       }
@@ -130,7 +109,14 @@
       "metadata": {
         "description": "The base URI where artifacts required by this template are located. When the template is deployed using the accompanying scripts, a private location in the subscription will be used and this value will be automatically generated."
       },
-      "defaultValue": "https://github.com/BabysbreathJJ/TelepathyDeploy/blob/master/Copy-FileFromAzure.ps1"
+      "defaultValue": "https://raw.githubusercontent.com/BabysbreathJJ/TelepathyDeploy/master/Copy-FileFromAzure.ps1"
+    },
+    "artifactsFolderName": {
+      "type": "string",
+      "metadata": {
+        "description": "The artifacts folder to be download in telepathy VM"
+      },
+      "defaultValue": "20190912.9"
     }
   },
   "variables": {
@@ -148,7 +134,7 @@
     "telepathyVMStorageAccountContainerName": "vhds",
     "telepathyVMNicName": "[concat(parameters('telepathyVMName'), 'NetworkInterface')]",
     "customScriptLocation":"[parameters('customScriptLocation')]",
-    "scriptParameters": "[concat('-artifactsFolderName', parameters('_artifactsFolderName') ']"
+    "scriptParameters": "[concat('-artifactsFolderName ', parameters('artifactsFolderName'))]"
   },
   "resources": [
     {
@@ -341,7 +327,7 @@
               "fileUris": [
                 "[variables('customScriptLocation')]"
               ],
-              "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('scriptLocation'), ' ', variables('scriptParameters'))]"
+              "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File Copy-FileFromAzure.ps1', ' ', variables('scriptParameters'))]"
             }
           }
         }

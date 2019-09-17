@@ -2,7 +2,7 @@
 param (
     [string]$artifactsFolderName
 )
-
+Install-Module -Name Az -AllowClobber -Scope AllUsers
 $container_name = 'telepathy'  
 $destination_path = "C:\telepathy"
 $srcStorageAccountName = "soaserviceartifactci"
