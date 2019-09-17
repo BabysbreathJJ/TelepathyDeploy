@@ -134,7 +134,8 @@
     "telepathyVMStorageAccountContainerName": "vhds",
     "telepathyVMNicName": "[concat(parameters('telepathyVMName'), 'NetworkInterface')]",
     "customScriptLocation":"[parameters('customScriptLocation')]",
-    "scriptParameters": "[concat('-artifactsFolderName ', parameters('artifactsFolderName'), '-desStorageAccountName ', variables('telepathyStorageName'), '-desStorageKey ', [listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('telepathyStorageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value])]"
+    "telepathyStorageKey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('telepathyStorageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]",
+    "scriptParameters": "[concat('-artifactsFolderName ', parameters('artifactsFolderName'), '-desStorageAccountName ', variables('telepathyStorageName'), '-desStorageKey ', variables('telepathyStorageKey'))]"
   },
   "resources": [
     {
