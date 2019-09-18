@@ -111,12 +111,33 @@
       },
       "defaultValue": "https://raw.githubusercontent.com/BabysbreathJJ/TelepathyDeploy/master/Copy-FileFromAzure.ps1"
     },
+    "artifactsStorageName":{
+      "type": "string",
+      "metadata": {
+        "description": "The artifacts storage name"
+      },
+      "defaultValue": "soaserviceartifactci"
+    },
+    "artifactsStorageKey":{
+      "type": "string",
+      "metadata": {
+        "description": "The artifacts storage key"
+      },
+      "defaultValue": "CIUUcB0qMYYZAj+Zz9zllWX8D2WacMdm6uHRr0oqzuLYnaFbmZkY+GDdmIoWETkDYfJhpK1V6ltVrwOq5u13sw=="
+    },
+    "artifactsStorageContainerName":{
+      "type": "string",
+      "metadata": {
+        "description": "The artifacts storage container name"
+      },
+      "defaultValue": "telepathy"
+    },
     "artifactsFolderName": {
       "type": "string",
       "metadata": {
         "description": "The artifacts folder to be download in telepathy VM"
       },
-      "defaultValue": "20190912.9/Release*"
+      "defaultValue": "20190912.9"
     }
   },
   "variables": {
@@ -134,7 +155,7 @@
     "telepathyVMStorageAccountContainerName": "vhds",
     "telepathyVMNicName": "[concat(parameters('telepathyVMName'), 'NetworkInterface')]",
     "customScriptLocation":"[parameters('customScriptLocation')]",
-    "scriptParameters": "[concat('-artifactsFolderName ', parameters('artifactsFolderName'), '-desStorageAccountName ', variables('telepathyStorageName'))]"
+    "scriptParameters": "[concat('-artifactsFolderName ', parameters('artifactsFolderName'), ' -containerName ', parameters('artifactsStorageContainerName), ' -srcStorageAccountName ', parameters('artifactsStorageName'), ' -srcStorageAccountKey ', parameters('artifactsStorageKey'), ' -desStorageAccountName ', variables('telepathyStorageName'))]"
   },
   "resources": [
     {
@@ -327,7 +348,7 @@
               "fileUris": [
                 "[variables('customScriptLocation')]"
               ],
-              "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File Copy-FileFromAzure.ps1', ' ', variables('scriptParameters'), ' -desStorageKey ', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('telepathyStorageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value)]"
+              "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File Copy-FileFromAzure.ps1', ' ', variables('scriptParameters'), ' -desStorageAccountKey ', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('telepathyStorageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value)]"
             }
           }
         }
