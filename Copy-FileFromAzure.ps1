@@ -1,5 +1,8 @@
 <# Custom Script for Windows to install a file from Azure Storage using the staging folder created by the deployment script #>
 param (
+    [string]$Location,
+    [string]$BatchAccountName,
+    [string]$BatchPoolName
     [string]$ArtifactsFolderName,
     [string]$ContainerName,
     [string]$SrcStorageAccountName,
@@ -47,3 +50,10 @@ uploadFiles -LocalPath "$destination_path\$artifactsFolderName\Release\CcpServic
 uploadFiles -LocalPath "$destination_path\$artifactsFolderName\Release\EchoSvcLib" -RemotePath "ccpechosvc" -ContainerName "service-assembly" -StorageContext $desStorageContext
 uploadFiles -LocalPath "$destination_path\$artifactsFolderName\Release\Registration"  -ContainerName "service-registration" -StorageContext $desStorageContext
 
+$desStorageConnectionString = "DefaultEndpointsProtocol=https;AccountName=$desStorageAccountName;AccountKey=$desStorageAccountKey;EndpointSuffix=core.windows.net"
+$batchAccountKey = Get-AzBatchAccountKeys –AccountName $BatchAccountName
+$batchServiceUrl = "https://$BatchAccountName.$location.batch.azure.com"
+
+ Write-Verbose $desStorageConnectionString
+ Write-Verbose $batchAccountKey
+ Write-Verbose $batchServiceUrl
