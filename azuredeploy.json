@@ -58,7 +58,7 @@
     },
     "targetDedicatedNodes": {
       "type": "int",
-      "defaultValue": 0,
+      "defaultValue": 1,
       "minValue": 0,
       "metadata": {
         "description": "The number of target dedicated nodes in batch pool"
@@ -155,7 +155,7 @@
     "telepathyVMStorageAccountContainerName": "vhds",
     "telepathyVMNicName": "[concat(parameters('telepathyVMName'), 'NetworkInterface')]",
     "customScriptLocation":"[parameters('customScriptLocation')]",
-    "scriptParameters": "[concat('-artifactsFolderName ', parameters('artifactsFolderName'), ' -containerName ', parameters('artifactsStorageContainerName), ' -srcStorageAccountName ', parameters('artifactsStorageName'), ' -srcStorageAccountKey ', parameters('artifactsStorageKey'), ' -desStorageAccountName ', variables('telepathyStorageName'))]"
+    "scriptParameters": "[concat('-ArtifactsFolderName ', parameters('artifactsFolderName'), ' -ContainerName ', parameters('artifactsStorageContainerName'), ' -SrcStorageAccountName ', parameters('artifactsStorageName'), ' -SrcStorageAccountKey ', parameters('artifactsStorageKey'), ' -DesStorageAccountName ', variables('telepathyStorageName'))]"
   },
   "resources": [
     {
@@ -348,7 +348,7 @@
               "fileUris": [
                 "[variables('customScriptLocation')]"
               ],
-              "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File Copy-FileFromAzure.ps1', ' ', variables('scriptParameters'), ' -desStorageAccountKey ', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('telepathyStorageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value)]"
+              "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File Copy-FileFromAzure.ps1', ' ', variables('scriptParameters'), ' -DesStorageAccountKey ', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('telepathyStorageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value)]"
             }
           }
         }

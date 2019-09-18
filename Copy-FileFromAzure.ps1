@@ -1,22 +1,21 @@
 <# Custom Script for Windows to install a file from Azure Storage using the staging folder created by the deployment script #>
 param (
-    [string]$artifactsFolderName,
-    [string]$containerName,
-    [string]$srcStorageAccountName,
-    [string]$srcStorageAccountKey,
-    [string]$desStorageAccountName,
-    [string]$desStorageAccountKey
+    [string]$ArtifactsFolderName,
+    [string]$ContainerName,
+    [string]$SrcStorageAccountName,
+    [string]$SrcStorageAccountKey,
+    [string]$DesStorageAccountName,
+    [string]$DesStorageAccountKey
 )
 Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
 Install-Module -Name Az -AllowClobber -Force
 $destination_path = "C:\telepathy"
 $srcStorageContext = New-AzStorageContext -StorageAccountName $srcStorageAccountName -StorageAccountKey $srcStorageAccountKey
 $desStorageContext = New-AzStorageContext -StorageAccountName $desStorageAccountName -StorageAccountKey $desStorageAccountKey
-$blobs = Get-AzStorageBlob -Container $containerName -Blob $artifactsFolderName -Context $srcStorageContext
+$blobs = Get-AzStorageBlob -Container $containerName -Blob "$artifactsFolderName*" -Context $srcStorageContext
 foreach($blob in $blobs) {  
     New-Item -ItemType Directory -Force -Path $destination_path  
     Get-AzStorageBlobContent -Container $containerName -Blob $blob.Name -Destination $destination_path -Context $srcStorageContext   
-    Set-AzStorageBlobContent -Container $containerName -Blob $blob.Name -Context $desStorageContext
 } 
 
 "runtime service-assembly service-registration".split() | New-AzStorageContainer -Context $desStorageContext
