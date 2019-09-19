@@ -348,7 +348,7 @@
               "fileUris": [
                 "[variables('customScriptLocation')]"
               ],
-              "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File Copy-FileFromAzure.ps1', ' ', variables('scriptParameters'), ' -DesStorageAccountKey ', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('telepathyStorageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value)]"
+              "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File Copy-FileFromAzure.ps1', ' ', variables('scriptParameters'), ' -DesStorageAccountKey ', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('telepathyStorageName'), ' - BatchAccountKey ', listKeys(resourceId('Microsoft.Batch/batchAccounts', parameters('batchAccountsName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value)]"
             }
           }
         }

@@ -2,13 +2,14 @@
 param (
     [string]$Location,
     [string]$BatchAccountName,
-    [string]$BatchPoolName
+    [string]$BatchPoolName,
     [string]$ArtifactsFolderName,
     [string]$ContainerName,
     [string]$SrcStorageAccountName,
     [string]$SrcStorageAccountKey,
     [string]$DesStorageAccountName,
-    [string]$DesStorageAccountKey
+    [string]$DesStorageAccountKey,
+    [string]$BatchAccountKey
 )
 Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
 Install-Module -Name Az -AllowClobber -Force
@@ -51,9 +52,8 @@ uploadFiles -LocalPath "$destination_path\$artifactsFolderName\Release\EchoSvcLi
 uploadFiles -LocalPath "$destination_path\$artifactsFolderName\Release\Registration"  -ContainerName "service-registration" -StorageContext $desStorageContext
 
 $desStorageConnectionString = "DefaultEndpointsProtocol=https;AccountName=$desStorageAccountName;AccountKey=$desStorageAccountKey;EndpointSuffix=core.windows.net"
-$batchAccountKey = Get-AzBatchAccountKeys –AccountName $BatchAccountName
 $batchServiceUrl = "https://$BatchAccountName.$location.batch.azure.com"
 
  Write-Verbose $desStorageConnectionString
- Write-Verbose $batchAccountKey
+ Write-Verbose $BatchAccountKey
  Write-Verbose $batchServiceUrl
