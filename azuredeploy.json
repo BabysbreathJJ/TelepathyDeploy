@@ -282,14 +282,14 @@
       "name": "telepathyPublicIPAddress",
       "location": "[resourceGroup().location]",
       "properties": {
-        "publicIPAllocationMethod": "static"
+        "publicIPAllocationMethod": "Static"
       }
     },
     {
       "name": "[parameters('telepathyVMName')]",
       "type": "Microsoft.Compute/virtualMachines",
       "location": "[resourceGroup().location]",
-      "apiVersion": "2015-06-15",
+      "apiVersion": "2017-03-30",
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts', variables('telepathyStorageName'))]",
         "[resourceId('Microsoft.Network/networkInterfaces', variables('telepathyVMNicName'))]"
