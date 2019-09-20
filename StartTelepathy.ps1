@@ -16,7 +16,7 @@ param (
 Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
 Install-Module -Name Az -AllowClobber -Force
 $destination_path = "C:\telepathy"
-$srcStorageContext = New-AzStorageContext -StorageAccountName $srcStorageAccountName -SasToken $srcStorageSasToken
+$srcStorageContext = New-AzStorageContext -StorageAccountName $srcStorageAccountName -SasToken $srcStorageContainerSasToken
 $blobs = Get-AzStorageBlob -Container $containerName -Blob "$artifactsFolderName*" -Context $srcStorageContext
 foreach($blob in $blobs) {  
     New-Item -ItemType Directory -Force -Path $destination_path  

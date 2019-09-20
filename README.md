@@ -35,7 +35,3 @@ New-AzResourceGroup -Name $ResourceGroupName -Location $Location
 New-AzResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $TemplateFile -TemplateParameterFile $TemplateParameterFile
 
 ```
-
-[ "$(az group exists -n TestTelepathy)" = "true" ] && az group delete -n  TestTelepathy -y
-az group create --name TestTelepathy --location "japaneast" --subscription BigCompS-Int2
-az group deployment create --name TestTelepathy --resource-group TestTelepathy --subscription BigCompS-Int2 --template-file  "D:\github\TelepathyDeploy\TelepathyDeploy\azuredeploy.json" --parameters "D:\github\TelepathyDeploy\TelepathyDeploy\azuredeploy.parameters.json"
