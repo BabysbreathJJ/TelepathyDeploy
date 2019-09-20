@@ -116,28 +116,28 @@
       "metadata": {
         "description": "The artifacts storage name"
       },
-      "defaultValue": "soaserviceartifactci"
+      "defaultValue": ""
     },
     "artifactsStorageContainerSasToken":{
       "type": "string",
       "metadata": {
         "description": "The artifacts storage sas token"
       },
-      "defaultValue": "?sv=2018-03-28&sr=c&sig=u%2FJS4hPN6fpfVpQaPIMbt9sUzcTA3AJlFCMR4eJcgDU%3D&se=2019-09-20T04%3A25%3A55Z&sp=r"
+      "defaultValue": ""
     },
     "artifactsStorageContainerName":{
       "type": "string",
       "metadata": {
         "description": "The artifacts storage container name"
       },
-      "defaultValue": "telepathy"
+      "defaultValue": ""
     },
     "artifactsFolderName": {
       "type": "string",
       "metadata": {
         "description": "The artifacts folder to be download in telepathy VM"
       },
-      "defaultValue": "20190912.9"
+      "defaultValue": ""
     }
   },
   "variables": {
