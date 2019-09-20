@@ -118,12 +118,12 @@
       },
       "defaultValue": "soaserviceartifactci"
     },
-    "artifactsStorageKey":{
+    "artifactsStorageContainerSasToken":{
       "type": "string",
       "metadata": {
-        "description": "The artifacts storage key"
+        "description": "The artifacts storage sas token"
       },
-      "defaultValue": "CIUUcB0qMYYZAj+Zz9zllWX8D2WacMdm6uHRr0oqzuLYnaFbmZkY+GDdmIoWETkDYfJhpK1V6ltVrwOq5u13sw=="
+      "defaultValue": "?sv=2018-03-28&sr=c&sig=u%2FJS4hPN6fpfVpQaPIMbt9sUzcTA3AJlFCMR4eJcgDU%3D&se=2019-09-20T04%3A25%3A55Z&sp=r"
     },
     "artifactsStorageContainerName":{
       "type": "string",
@@ -155,7 +155,7 @@
     "telepathyVMStorageAccountContainerName": "vhds",
     "telepathyVMNicName": "[concat(parameters('telepathyVMName'), 'NetworkInterface')]",
     "customScriptLocation":"[parameters('customScriptLocation')]",
-    "scriptParameters": "[concat('-EnableTelepathyStorage ',' -StartSessionLauncher ', ' -Location ', resourceGroup().location, ' -BatchAccountName ', parameters('batchAccountsName'), ' -BatchPoolName ', parameters('batchAccountsPoolName'), ' -ArtifactsFolderName ', parameters('artifactsFolderName'), ' -ContainerName ', parameters('artifactsStorageContainerName'), ' -SrcStorageAccountName ', parameters('artifactsStorageName'), ' -SrcStorageAccountKey ', parameters('artifactsStorageKey'), ' -DesStorageAccountName ', variables('telepathyStorageName'))]"
+    "scriptParameters": "[concat('-EnableTelepathyStorage ',' -StartSessionLauncher ', ' -Location ', resourceGroup().location, ' -BatchAccountName ', parameters('batchAccountsName'), ' -BatchPoolName ', parameters('batchAccountsPoolName'), ' -ArtifactsFolderName ', parameters('artifactsFolderName'), ' -ContainerName ', parameters('artifactsStorageContainerName'), ' -SrcStorageAccountName ', parameters('artifactsStorageName'), ' -srcStorageContainerSasToken ', parameters('artifactsStorageContainerSasToken'), ' -DesStorageAccountName ', variables('telepathyStorageName'))]"
   },
   "resources": [
     {
