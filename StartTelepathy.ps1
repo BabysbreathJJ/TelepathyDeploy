@@ -9,7 +9,7 @@ param (
     [string]$ContainerName,
     [string]$SrcStorageAccountName,
     [string]$DesStorageAccountName,
-     [string]$SrcStorageContainerSasToken,
+    [string]$SrcStorageContainerSasToken,
     [string]$DesStorageAccountKey,
     [string]$BatchAccountKey
 )
