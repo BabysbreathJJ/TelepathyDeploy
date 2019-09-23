@@ -8,8 +8,8 @@ param (
     [string]$ArtifactsFolderName,
     [string]$ContainerName,
     [string]$SrcStorageAccountName,
-    [string]$SrcStorageContainerSasToken,
     [string]$DesStorageAccountName,
+     [string]$SrcStorageContainerSasToken,
     [string]$DesStorageAccountKey,
     [string]$BatchAccountKey
 )
@@ -94,8 +94,8 @@ Try {
     Write-Log -Message "StorageSasToken : $SrcStorageContainerSasToken"
     $srcStorageContext = New-AzStorageContext -StorageAccountName $SrcStorageAccountName -SasToken $SrcStorageContainerSasToken  
 } Catch {
-    Write-Log -Message "Please provide valid storage account name and sas token"
-    Write-Log -Message $_
+    Write-Log -Message "Please provide valid storage account name and sas token" -Level Error
+    Write-Log -Message $_ -Level Error
 }
 
 Try {
@@ -103,8 +103,8 @@ Try {
     Write-Log -Message "ArtifactsFolderName : $ArtifactsFolderName"
     $blobs = Get-AzStorageBlob -Container $ContainerName -Blob "$ArtifactsFolderName*" -Context $srcStorageContext
 } Catch {
-    Write-Log -Message "Error occurs when get source storage blob, can't get storage blob, please confirm you provide valid container name, blob name and storage context "
-    Write-Log -Message $_
+    Write-Log -Message "Error occurs when get source storage blob, can't get storage blob, please confirm you provide valid container name, blob name and storage context " -Level Error
+    Write-Log -Message $_ -Level Error
 }
 
 Try {
@@ -114,8 +114,8 @@ Try {
         Get-AzStorageBlobContent -Container $ContainerName -Blob $blob.Name -Destination $destination_path -Context $srcStorageContext   
     } 
 } Catch {
-    Write-Log -Message "Error occurs when download source storage blob to VM "
-    Write-Log -Message $_
+    Write-Log -Message "Error occurs when download source storage blob to VM " -Level Error
+    Write-Log -Message $_ -Level Error
 }
 
 $artifactsPath = "$destination_path\$ArtifactsFolderName\Release"

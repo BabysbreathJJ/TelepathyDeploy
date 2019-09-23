@@ -155,11 +155,9 @@
     "telepathyVMStorageAccountContainerName": "vhds",
     "telepathyVMNicName": "[concat(parameters('telepathyVMName'), 'NetworkInterface')]",
     "customScriptLocation": "[parameters('customScriptLocation')]",
-    "singleQuote": "'",
-    "scriptParameters": "[concat('-EnableTelepathyStorage ',' -StartSessionLauncher ', ' -Location ', resourceGroup().location, ' -BatchAccountName ', parameters('batchAccountsName'), ' -BatchPoolName ', parameters('batchAccountsPoolName'), ' -ArtifactsFolderName ', parameters('artifactsFolderName'), ' -ContainerName ', parameters('artifactsStorageContainerName'), ' -SrcStorageAccountName ', parameters('artifactsStorageName'), ' -SrcStorageContainerSasToken ', variables('singleQuote'), parameters('artifactsStorageContainerSasToken'), variables('singleQuote'), ' -DesStorageAccountName ', variables('telepathyStorageName'))]"
+    "scriptParameters": "[concat('-EnableTelepathyStorage ',' -StartSessionLauncher ', ' -Location ', resourceGroup().location, ' -BatchAccountName ', parameters('batchAccountsName'), ' -BatchPoolName ', parameters('batchAccountsPoolName'), ' -ArtifactsFolderName ', parameters('artifactsFolderName'), ' -ContainerName ', parameters('artifactsStorageContainerName'), ' -SrcStorageAccountName ', parameters('artifactsStorageName'), ' -DesStorageAccountName ', variables('telepathyStorageName'))]"
   },
-  "resources": [
-    {
+  "resources": [{
       "type": "Microsoft.Batch/batchAccounts",
       "apiVersion": "2017-09-01",
       "name": "[parameters('batchAccountsName')]",
@@ -238,14 +236,12 @@
             "[variables('telepathyVnetPrefix')]"
           ]
         },
-        "subnets": [
-          {
-            "name": "[variables('telepathyVnetSubnetName')]",
-            "properties": {
-              "addressPrefix": "[variables('telepathyVnetSubnetPrefix')]"
-            }
+        "subnets": [{
+          "name": "[variables('telepathyVnetSubnetName')]",
+          "properties": {
+            "addressPrefix": "[variables('telepathyVnetSubnetPrefix')]"
           }
-        ]
+        }]
       }
     },
     {
@@ -261,20 +257,18 @@
         "displayName": "telepathyVMNic"
       },
       "properties": {
-        "ipConfigurations": [
-          {
-            "name": "ipconfig1",
-            "properties": {
-              "privateIPAllocationMethod": "Dynamic",
-              "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses','telepathyPublicIPAddress')]"
-              },
-              "subnet": {
-                "id": "[variables('telepathyVMSubnetRef')]"
-              }
+        "ipConfigurations": [{
+          "name": "ipconfig1",
+          "properties": {
+            "privateIPAllocationMethod": "Dynamic",
+            "publicIPAddress": {
+              "id": "[resourceId('Microsoft.Network/publicIPAddresses','telepathyPublicIPAddress')]"
+            },
+            "subnet": {
+              "id": "[variables('telepathyVMSubnetRef')]"
             }
           }
-        ]
+        }]
       }
     },
     {
@@ -324,36 +318,32 @@
           }
         },
         "networkProfile": {
-          "networkInterfaces": [
-            {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('telepathyVMNicName'))]"
-            }
-          ]
+          "networkInterfaces": [{
+            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('telepathyVMNicName'))]"
+          }]
         }
       },
-      "resources": [
-        {
-          "type": "extensions",
-          "name": "CustomScriptExtension",
-          "apiVersion": "2017-03-30",
-          "location": "[resourceGroup().location]",
-          "dependsOn": [
-            "[parameters('telepathyVMName')]"
-          ],
-          "properties": {
-            "publisher": "Microsoft.Compute",
-            "type": "CustomScriptExtension",
-            "typeHandlerVersion": "1.8",
-            "autoUpgradeMinorVersion": true,
-            "settings": {
-              "fileUris": [
-                "[variables('customScriptLocation')]"
-              ],
-              "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File StartTelepathy.ps1', ' ', variables('scriptParameters'), ' -DesStorageAccountKey ', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('telepathyStorageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value, ' -BatchAccountKey ', listKeys(resourceId('Microsoft.Batch/batchAccounts', parameters('batchAccountsName')), '2017-09-01').primary)]"
-            }
+      "resources": [{
+        "type": "extensions",
+        "name": "CustomScriptExtension",
+        "apiVersion": "2017-03-30",
+        "location": "[resourceGroup().location]",
+        "dependsOn": [
+          "[parameters('telepathyVMName')]"
+        ],
+        "properties": {
+          "publisher": "Microsoft.Compute",
+          "type": "CustomScriptExtension",
+          "typeHandlerVersion": "1.8",
+          "autoUpgradeMinorVersion": true,
+          "settings": {
+            "fileUris": [
+              "[variables('customScriptLocation')]"
+            ],
+            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File StartTelepathy.ps1', ' ', variables('scriptParameters'),' -SrcStorageContainerSasToken ', parameters('artifactsStorageContainerSasToken'), ' -DesStorageAccountKey ', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('telepathyStorageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value, ' -BatchAccountKey ', listKeys(resourceId('Microsoft.Batch/batchAccounts', parameters('batchAccountsName')), '2017-09-01').primary)]"
           }
         }
-      ]
+      }]
     }
 
   ],
