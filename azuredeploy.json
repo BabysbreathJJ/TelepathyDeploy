@@ -111,21 +111,21 @@
       },
       "defaultValue": "https://raw.githubusercontent.com/BabysbreathJJ/TelepathyDeploy/master/StartTelepathy.ps1"
     },
-    "artifactsStorageName":{
+    "artifactsStorageName": {
       "type": "string",
       "metadata": {
         "description": "The artifacts storage name"
       },
       "defaultValue": ""
     },
-    "artifactsStorageContainerSasToken":{
+    "artifactsStorageContainerSasToken": {
       "type": "string",
       "metadata": {
         "description": "The artifacts storage sas token"
       },
       "defaultValue": ""
     },
-    "artifactsStorageContainerName":{
+    "artifactsStorageContainerName": {
       "type": "string",
       "metadata": {
         "description": "The artifacts storage container name"
@@ -154,7 +154,7 @@
     "telepathyVMSubnetRef": "[concat(variables('telepathyVMVnetID'), '/subnets/', variables('telepathyVnetSubnetName'))]",
     "telepathyVMStorageAccountContainerName": "vhds",
     "telepathyVMNicName": "[concat(parameters('telepathyVMName'), 'NetworkInterface')]",
-    "customScriptLocation":"[parameters('customScriptLocation')]",
+    "customScriptLocation": "[parameters('customScriptLocation')]",
     "singleQuote": "'",
     "scriptParameters": "[concat('-EnableTelepathyStorage ',' -StartSessionLauncher ', ' -Location ', resourceGroup().location, ' -BatchAccountName ', parameters('batchAccountsName'), ' -BatchPoolName ', parameters('batchAccountsPoolName'), ' -ArtifactsFolderName ', parameters('artifactsFolderName'), ' -ContainerName ', parameters('artifactsStorageContainerName'), ' -SrcStorageAccountName ', parameters('artifactsStorageName'), ' -SrcStorageContainerSasToken ', variables('singleQuote'), parameters('artifactsStorageContainerSasToken'), variables('singleQuote'), ' -DesStorageAccountName ', variables('telepathyStorageName'))]"
   },

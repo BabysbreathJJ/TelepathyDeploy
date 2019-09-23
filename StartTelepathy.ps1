@@ -16,12 +16,34 @@ param (
 Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
 Install-Module -Name Az -AllowClobber -Force
 $destination_path = "C:\telepathy"
-$srcStorageContext = New-AzStorageContext -StorageAccountName $SrcStorageAccountName -SasToken $SrcStorageContainerSasToken
-$blobs = Get-AzStorageBlob -Container $ContainerName -Blob "$ArtifactsFolderName*" -Context $srcStorageContext
-foreach($blob in $blobs) {  
-    New-Item -ItemType Directory -Force -Path $destination_path  
-    Get-AzStorageBlobContent -Container $ContainerName -Blob $blob.Name -Destination $destination_path -Context $srcStorageContext   
-} 
+Try {
+    $srcStorageContext = New-AzStorageContext -StorageAccountName $SrcStorageAccountName -SasToken $SrcStorageContainerSasToken
+    Write-Host "StorageAccountName : $SrcStorageAccountName"
+    Write-Host "StorageSasToken : $SrcStorageContainerSasToken"
+} Catch {
+    Write-Host "Please provide valid storage account name and sas token"
+    Write-Host $_
+}
+
+Try {
+    Write-Host "ContainerName : $ContainerName"
+    Write-Host "ArtifactsFolderName : $ArtifactsFolderName"
+    $blobs = Get-AzStorageBlob -Container $ContainerName -Blob "$ArtifactsFolderName*" -Context $srcStorageContext
+} Catch {
+    Write-Host "Error occurs when get source storage blob, can't get storage blob, please confirm you provide valid container name, blob name and storage context "
+    Write-Host $_
+}
+
+Try {
+    Write-Host "DestinationPath in VM : $destination_path"
+    foreach($blob in $blobs) {  
+        New-Item -ItemType Directory -Force -Path $destination_path  
+        Get-AzStorageBlobContent -Container $ContainerName -Blob $blob.Name -Destination $destination_path -Context $srcStorageContext   
+    } 
+} Catch {
+    Write-Host "Error occurs when download source storage blob to VM "
+    Write-Host $_
+}
 
 $artifactsPath = "$destination_path\$ArtifactsFolderName\Release"
 $desStorageConnectionString = "DefaultEndpointsProtocol=https;AccountName=$DesStorageAccountName;AccountKey=$DesStorageAccountKey;EndpointSuffix=core.windows.net"

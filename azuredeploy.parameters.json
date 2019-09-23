@@ -3,31 +3,37 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "telepathyVMName": {
-      "value": "telepathy"
+      "value": ""
     },
     "telepathyVMAdminUserName": {
-      "value": "jingjing"
+      "value": ""
     },
     "telepathyVMAdminPassword": {
-      "value": "123456Telepathy..."
+      "value": ""
     },
     "vnetName": {
-      "value": "telepathyvnet"
+      "value": ""
     },
     "subnetName": {
-      "value": "telepathysubnet"
+      "value": ""
+    },
+    "newOrExistingVnet": {
+      "value": ""
+    },
+    "vnetResourceGroup": {
+      "value": ""
     },
     "artifactsStorageName": {
-      "value": "soaserviceartifactci"
+      "value": ""
     },
     "artifactsStorageContainerSasToken": {
-      "value": "?sv=2018-03-28&sr=c&sig=u%2FJS4hPN6fpfVpQaPIMbt9sUzcTA3AJlFCMR4eJcgDU%3D&se=2019-09-20T04%3A25%3A55Z&sp=r"
+      "value": ""
     },
     "artifactsStorageContainerName": {
-      "value": "telepathy"
+      "value": ""
     },
     "artifactsFolderName": {
-      "value": "20190912.9"
+      "value": ""
     }
   }
 }
