@@ -155,6 +155,8 @@
     "telepathyVMStorageAccountContainerName": "vhds",
     "telepathyVMNicName": "[concat(parameters('telepathyVMName'), 'NetworkInterface')]",
     "customScriptLocation": "[parameters('customScriptLocation')]",
+    "doubleQuotation": "\"",
+    "caret": "^",
     "scriptParameters": "[concat('-EnableTelepathyStorage ',' -StartSessionLauncher ', ' -Location ', resourceGroup().location, ' -BatchAccountName ', parameters('batchAccountsName'), ' -BatchPoolName ', parameters('batchAccountsPoolName'), ' -ArtifactsFolderName ', parameters('artifactsFolderName'), ' -ContainerName ', parameters('artifactsStorageContainerName'), ' -SrcStorageAccountName ', parameters('artifactsStorageName'), ' -DesStorageAccountName ', variables('telepathyStorageName'))]"
   },
   "resources": [{
@@ -340,7 +342,7 @@
             "fileUris": [
               "[variables('customScriptLocation')]"
             ],
-            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File StartTelepathy.ps1', ' ', variables('scriptParameters'),' -SrcStorageContainerSasToken ', string(parameters('artifactsStorageContainerSasToken')), ' -DesStorageAccountKey ', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('telepathyStorageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value, ' -BatchAccountKey ', listKeys(resourceId('Microsoft.Batch/batchAccounts', parameters('batchAccountsName')), '2017-09-01').primary)]"
+            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File StartTelepathy.ps1', ' ', variables('scriptParameters'),' -SrcStorageContainerSasToken ', variables('caret'), variables(doubleQuotation), variables(doubleQuotation), string(parameters('artifactsStorageContainerSasToken')), variables(doubleQuotation), variables('caret'), variables(doubleQuotation), ' -DesStorageAccountKey ', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('telepathyStorageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value, ' -BatchAccountKey ', listKeys(resourceId('Microsoft.Batch/batchAccounts', parameters('batchAccountsName')), '2017-09-01').primary)]"
           }
         }
       }]
